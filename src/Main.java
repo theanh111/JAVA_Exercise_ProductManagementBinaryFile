@@ -1,5 +1,6 @@
 import model.Product;
 import service.ProductManagement;
+import service.TextFile;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -10,47 +11,24 @@ public class Main {
         List<Product> listProduct = new ArrayList<>();
         ProductManagement productManagement = new ProductManagement();
         listProduct = productManagement.findAll();
-        System.out.println("List: ");
+        System.out.println("- List: ");
 
-
-        productManagement.add(new Product(9L, "Note 7", "Samsung", 299L, "This is a smartphone!"));
+        productManagement.add(new Product(6L, "Note 7", "Samsung", 299L, "Samsung Note 7 was created by Samsung!"));
+        productManagement.add(new Product(7L, "Iphone 8", "Apple", 255L, "This is a smartphone!"));
+        productManagement.add(new Product(8L, "Iphone 5", "Apple", 199L, "This is a smartphone!"));
+        productManagement.add(new Product(9L, "Iphone 4s", "Apple", 120L, "This is a smartphone!"));
         listProduct = productManagement.findAll();
         displayList(listProduct);
 
         listProduct = productManagement.findAll();
 
-        System.out.println();
-        System.out.println("Writing file...");
-        System.out.println();
+        listProduct = productManagement.findByCompanyName("Apple");
 
-        try {
-            ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream("BinaryProductList.txt"));
-            for (int i = 0; i < listProduct.size(); i++) {
-                outputStream.writeObject(listProduct);
-            }
+        TextFile writingFile = new TextFile();
+        writingFile.writeFile("BinaryProductList.txt", listProduct);
 
-            outputStream.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        System.out.println("Reading file: ");
-        try {
-            ObjectInputStream readFile = new ObjectInputStream(new FileInputStream("BinaryProductList.txt"));
-            List<Product> productList = (ArrayList<Product>) readFile.readObject();
-            for (int i = 0; i < productList.size(); i++) {
-                System.out.println(productList.get(i).toString());
-            }
-            readFile.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ClassNotFoundException e) {
-            e.printStackTrace();
-        }
+        TextFile readingFile = new TextFile();
+        readingFile.readFile("BinaryProductList.txt");
     }
 
     public static void displayList(List<Product> list) {
