@@ -10,15 +10,19 @@ public class Main {
         List<Product> listProduct = new ArrayList<>();
         ProductManagement productManagement = new ProductManagement();
         listProduct = productManagement.findAll();
-        System.out.println("Danh sách lúc đầu: ");
+        System.out.println("List: ");
 
 
-        productManagement.add(new Product(9L, "Alo", "Ok", 399L, "Đây là phần mô tả"));
+        productManagement.add(new Product(9L, "Note 7", "Samsung", 299L, "This is a smartphone!"));
         listProduct = productManagement.findAll();
         displayList(listProduct);
 
-        System.out.println("Ghi file....");
+        listProduct = productManagement.findAll();
+
         System.out.println();
+        System.out.println("Writing file...");
+        System.out.println();
+
         try {
             ObjectOutputStream outputStream = new ObjectOutputStream(new FileOutputStream("BinaryProductList.txt"));
             for (int i = 0; i < listProduct.size(); i++) {
@@ -32,12 +36,12 @@ public class Main {
             e.printStackTrace();
         }
 
-        System.out.println("Đọc file: ");
+        System.out.println("Reading file: ");
         try {
             ObjectInputStream readFile = new ObjectInputStream(new FileInputStream("BinaryProductList.txt"));
-            List<Product> product = (ArrayList<Product>) readFile.readObject();
-            for (int i = 0; i < product.size(); i++) {
-                System.out.println(product.get(i).toString());
+            List<Product> productList = (ArrayList<Product>) readFile.readObject();
+            for (int i = 0; i < productList.size(); i++) {
+                System.out.println(productList.get(i).toString());
             }
             readFile.close();
         } catch (FileNotFoundException e) {

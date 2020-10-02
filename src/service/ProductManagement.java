@@ -64,7 +64,7 @@ public class ProductManagement implements Management<Product> {
     public List<Product> findByCompanyName(String companyName) {
         List<Product> productList = new ArrayList<>();
         for (Product product : products) {
-            if (companyName.equals(product.getName())) {
+            if (companyName.equals(product.getCompany())) {
                 productList.add(product);
             }
         }
